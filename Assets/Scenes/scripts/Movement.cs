@@ -130,12 +130,12 @@ public class PlayerMovement : MonoBehaviour
     //         }
     //      }
     // }
-    // void OnCollisionEnter2D(Collision2D collision){    
-    //     if(collision.gameObject.CompareTag("Dead")){
-    //         Debug.Log("dead");
-    //         transform.position = new Vector2(-20, 7);
-    //      }
-    // }
+    void OnCollisionEnter2D(Collision2D collision){    
+        if(collision.gameObject.CompareTag("Dead")){
+            Debug.Log("dead");
+            transform.position = new Vector2(0, 0);
+         }
+    }
 
     // private void Flip(){
     //     isFacingRight = !isFacingRight; 
