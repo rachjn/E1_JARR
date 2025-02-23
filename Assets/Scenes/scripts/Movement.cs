@@ -52,9 +52,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnMove(InputValue value)
+     void OnMove(InputValue value)
     {
         float v = value.Get<float>();
+        if (v != 0 && (v > 0 != isFacingRight)) // Check if direction changed
+        {
+            Flip();
+        }
         direction = v;
     }
 
@@ -137,10 +141,27 @@ public class PlayerMovement : MonoBehaviour
          }
     }
 
+//     void OnCollisionEnter2D(Collision2D collision)
+// {
+//     if (collision.gameObject.CompareTag("Enemy"))
+//     {
+//         GetComponent<HealthManager>().TakeDamage(20);
+//     }
+//     if (collision.gameObject.CompareTag("HealthPickup"))
+//     {
+//         GetComponent<HealthManager>().Heal(30);
+//     }
+// }
+
     // private void Flip(){
     //     isFacingRight = !isFacingRight; 
     //     Vector3 newLocalScale = transform.localScale;
     //     newLocalScale.x *= -1f;
     //     transform.localScale = newLocalScale; 
     // }
+    private void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        transform.Rotate(0f, 180f, 0f);
+    }
 }
