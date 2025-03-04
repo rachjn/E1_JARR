@@ -27,10 +27,27 @@ public class PlayerMovement : MonoBehaviour
     float numJumps = 0;
     bool isFacingRight = true;
 
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         // anim = GetComponent<Animator>();
+
+        var playerInput = GetComponent<PlayerInput>();
+        
+        if (playerInput != null)
+    {
+        if (gameObject.name.Contains("Player1"))
+        {
+            playerInput.SwitchCurrentActionMap("Player1");
+            playerInput.SwitchCurrentControlScheme("Keyboard1", Keyboard.current);
+        }
+        else if (gameObject.name.Contains("Player2"))
+        {
+            playerInput.SwitchCurrentActionMap("Player2");
+            playerInput.SwitchCurrentControlScheme("Keyboard2", Keyboard.current);
+        }
+    }
     }
 
     void Update()
