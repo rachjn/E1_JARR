@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5013973299317603488}
   - component: {fileID: 3804085459904783195}
   - component: {fileID: 8909740172729482183}
+  - component: {fileID: 2961659007755943284}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -187,6 +188,7 @@ MonoBehaviour:
   dashCooldown: 0
   maxJumps: 2
   teleportPosition: {x: -20, y: 7}
+  animator: {fileID: 2961659007755943284}
 --- !u!114 &3804085459904783195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +309,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   lives: 1
+--- !u!95 &2961659007755943284
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7110288247690481161}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7c3e46111ac8a4be79bcc4e17d766c93, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8046237111949630578
 GameObject:
   m_ObjectHideFlags: 0

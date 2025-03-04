@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] int maxJumps = 2;
 
     [SerializeField] Vector2 teleportPosition = new Vector2(-20, 7); // Target position for teleportation
+    public Animator animator;
 
 
     // Animator anim;
@@ -68,6 +69,8 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(dir * speed, rb.linearVelocity.y);
             // anim.SetBool("isRunning", dir != 0); 
+            animator.SetFloat("Speed", Mathf.Abs(dir * speed));
+            Debug.Log("Speed: " + Mathf.Abs(dir * speed));
         }
     }
 
