@@ -1,3 +1,239 @@
+// using UnityEngine;
+// using UnityEngine.InputSystem;
+
+// public class PlayerMovement : MonoBehaviour
+// {
+//     Rigidbody2D rb;
+//     [SerializeField] float speed = 1f;
+//     [SerializeField] float jumpHeight = 7f;
+
+//     [SerializeField] float dashSpeed = 10f; 
+//     [SerializeField] float dashDuration = 0.2f; 
+//     [SerializeField] float dashCooldown = 1f;
+//     [SerializeField] int maxJumps = 2;
+
+//     [SerializeField] Vector2 teleportPosition = new Vector2(-20, 7); // Target position for teleportation
+//     public Animator animator;
+//     [HideInInspector] public bool ledgeDetected;
+//     [Header("Ledge info")]
+//     [SerializeField] private Vector2 offset1;
+//     [SerializeField] private Vector2 offset2;
+
+//     private Vector2 climbBegunPosition;
+//     private Vector2 climbOverPosition;
+
+//     private bool canGrabLedge = true;
+//     private bool canClimb;                  
+
+
+//     // Animator anim;
+
+//     Vector2 dashDirection;
+//     bool isDashing = false;
+//     float dashCooldownTimer = 0f;
+//     float dashTimer = 0f;
+
+//     float direction = 0;
+//     float numJumps = 0;
+//     bool isFacingRight = true;
+
+
+//     void Start()
+//     {
+//         rb = GetComponent<Rigidbody2D>();
+//         animator = GetComponent<Animator>();
+
+//         var playerInput = GetComponent<PlayerInput>();
+        
+//         if (playerInput != null)
+//     {
+//         if (gameObject.name.Contains("Player1"))
+//         {
+//             playerInput.SwitchCurrentActionMap("Player1");
+//             playerInput.SwitchCurrentControlScheme("Keyboard1", Keyboard.current);
+//         }
+//         else if (gameObject.name.Contains("Player2"))
+//         {
+//             playerInput.SwitchCurrentActionMap("Player2");
+//             playerInput.SwitchCurrentControlScheme("Keyboard2", Keyboard.current);
+//         }
+//     }
+//     }
+
+//     void Update()
+//     {
+//         // Debug.Log(ledgeDetected);
+//         dashCooldownTimer -= Time.deltaTime;
+//         if (isDashing)
+//         {
+//             dashTimer -= Time.deltaTime;
+//             if (dashTimer <= 0f)
+//             {
+//                 EndDash();
+//             }
+//         }
+//         else
+//         {
+//             Move(direction);
+//             // if ((isFacingRight && direction == -1) || (!isFacingRight && direction == 1)){
+//             //     Flip();
+//             // }
+//         }
+
+//         CheckForLedge();
+//     }
+
+//     private void CheckForLedge(){
+
+//         if(ledgeDetected && canGrabLedge){
+//             canGrabLedge = false;
+            
+
+//             Vector2 ledgePosition = GetComponentInChildren<LedgeDetection>().transform.position;
+
+//             if (isFacingRight)
+//             {
+//                 climbBegunPosition = ledgePosition + offset1; // Normal for facing right
+//             }
+//             else
+//             {
+//                 climbBegunPosition = ledgePosition + new Vector2(-offset1.x, offset1.y); // Mirror the X offset
+//             }
+
+//             climbOverPosition = ledgePosition + offset2;
+
+//             canClimb = true;
+//         }
+
+//         if (canClimb){
+//             transform.position = climbBegunPosition;
+//             animator.SetBool("IsHanging", true);
+//         }
+//     }
+
+//      void OnMove(InputValue value)
+//     {
+//         float v = value.Get<float>();
+//         if (v != 0 && (v > 0 != isFacingRight)) // Check if direction changed
+//         {
+//             Flip();
+//         }
+//         direction = v;
+//     }
+
+//     void Move(float dir)
+//     {
+//         if (!isDashing)
+//         {
+//             rb.linearVelocity = new Vector2(dir * speed, rb.linearVelocity.y);
+//             // anim.SetBool("isRunning", dir != 0); 
+//             animator.SetFloat("Speed", Mathf.Abs(dir * speed));
+//             // Debug.Log("Speed: " + Mathf.Abs(dir * speed));
+//         }
+//     }
+
+//     void OnJump()
+//     {
+//         if (numJumps > 0 || canClimb)
+//         {
+//             canClimb = false;
+//             canGrabLedge = true;
+//             animator.SetBool("IsHanging", false);
+//             Jump();
+//             numJumps -= 1;
+//         }
+//     }
+
+//     void Jump()
+//     {
+//         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
+//     }
+
+//     void OnCollisionStay2D(Collision2D collision)
+//     {
+//         if (collision.gameObject.CompareTag("Ground"))
+//         {
+//             for (int i = 0; i < collision.contactCount; i++)
+//             {
+//                 if (Vector2.Angle(collision.GetContact(i).normal, Vector2.up) < 45f)
+//                 {
+//                     numJumps = maxJumps;
+//                 }
+//             }
+//         }
+//     }
+
+//     void OnDash()
+//     {
+//         if (dashCooldownTimer <= 0f && !isDashing) 
+//         {
+//             StartDash();
+//         }
+//     }
+
+//     void StartDash()
+//     {
+//         isDashing = true;
+//         dashTimer = dashDuration;
+//         dashCooldownTimer = dashCooldown;
+//         int dir = 1;
+//         if(!isFacingRight){
+//             dir = -1;
+//         }
+//         float dashX = dir != 0 ? dir : Mathf.Sign(rb.linearVelocity.x);
+//         dashDirection = new Vector2(dashX, 0).normalized;
+//         rb.linearVelocity = dashDirection * dashSpeed;
+//         rb.gravityScale = 0;
+//     }
+
+//     void EndDash()
+//     {
+//         isDashing = false;
+//         rb.gravityScale = 1;
+//     }
+//     // void OnCollisionExit2D(Collision2D collision){
+//     //     if(collision.gameObject.CompareTag("Ground") ){
+//     //         for (int i = 0; i < collision.contactCount; i++)
+//     //         {
+//     //             if (Vector2.Angle(collision.GetContact(i).normal, Vector2.up) > 85f)
+//     //             {
+//     //                 numJumps -=1; 
+//     //             }
+//     //         }
+//     //      }
+//     // }
+//     void OnCollisionEnter2D(Collision2D collision){    
+//         if(collision.gameObject.CompareTag("Dead")){
+//             Debug.Log("dead");
+//             transform.position = new Vector2(0, 0);
+//          }
+//     }
+
+// //     void OnCollisionEnter2D(Collision2D collision)
+// // {
+// //     if (collision.gameObject.CompareTag("Enemy"))
+// //     {
+// //         GetComponent<HealthManager>().TakeDamage(20);
+// //     }
+// //     if (collision.gameObject.CompareTag("HealthPickup"))
+// //     {
+// //         GetComponent<HealthManager>().Heal(30);
+// //     }
+// // }
+
+//     // private void Flip(){
+//     //     isFacingRight = !isFacingRight; 
+//     //     Vector3 newLocalScale = transform.localScale;
+//     //     newLocalScale.x *= -1f;
+//     //     transform.localScale = newLocalScale; 
+//     // }
+//     private void Flip()
+//     {
+//         isFacingRight = !isFacingRight;
+//         transform.Rotate(0f, 180f, 0f);
+//     }
+// }
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,16 +243,25 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float speed = 1f;
     [SerializeField] float jumpHeight = 7f;
 
-    [SerializeField] float dashSpeed = 10f; 
-    [SerializeField] float dashDuration = 0.2f; 
+    [SerializeField] float dashSpeed = 10f;
+    [SerializeField] float dashDuration = 0.2f;
     [SerializeField] float dashCooldown = 1f;
     [SerializeField] int maxJumps = 2;
 
-    [SerializeField] Vector2 teleportPosition = new Vector2(-20, 7); // Target position for teleportation
+    [SerializeField] Vector2 teleportPosition = new Vector2(-20, 7);
     public Animator animator;
+    [HideInInspector] public bool ledgeDetected;
+    [Header("Ledge info")]
+    [SerializeField] private Vector2 offset1;
+    [SerializeField] private Vector2 offset2;
 
+    private Vector2 climbBegunPosition;
+    private Vector2 climbOverPosition;
 
-    // Animator anim;
+    private bool canGrabLedge = true;
+    private bool canClimb;
+    private float ledgeGrabCooldown = 0.3f; // Cooldown after jumping before grabbing ledge
+    private float ledgeGrabCooldownTimer = 0f;
 
     Vector2 dashDirection;
     bool isDashing = false;
@@ -27,32 +272,32 @@ public class PlayerMovement : MonoBehaviour
     float numJumps = 0;
     bool isFacingRight = true;
 
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        // anim = GetComponent<Animator>();
-
+        animator = GetComponent<Animator>();
         var playerInput = GetComponent<PlayerInput>();
-        
+
         if (playerInput != null)
-    {
-        if (gameObject.name.Contains("Player1"))
         {
-            playerInput.SwitchCurrentActionMap("Player1");
-            playerInput.SwitchCurrentControlScheme("Keyboard1", Keyboard.current);
+            if (gameObject.name.Contains("Player1"))
+            {
+                playerInput.SwitchCurrentActionMap("Player1");
+                playerInput.SwitchCurrentControlScheme("Keyboard1", Keyboard.current);
+            }
+            else if (gameObject.name.Contains("Player2"))
+            {
+                playerInput.SwitchCurrentActionMap("Player2");
+                playerInput.SwitchCurrentControlScheme("Keyboard2", Keyboard.current);
+            }
         }
-        else if (gameObject.name.Contains("Player2"))
-        {
-            playerInput.SwitchCurrentActionMap("Player2");
-            playerInput.SwitchCurrentControlScheme("Keyboard2", Keyboard.current);
-        }
-    }
     }
 
     void Update()
     {
         dashCooldownTimer -= Time.deltaTime;
+        ledgeGrabCooldownTimer -= Time.deltaTime;
+        
         if (isDashing)
         {
             dashTimer -= Time.deltaTime;
@@ -64,16 +309,42 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             Move(direction);
-            // if ((isFacingRight && direction == -1) || (!isFacingRight && direction == 1)){
-            //     Flip();
-            // }
+        }
+
+        CheckForLedge();
+    }
+
+    private void CheckForLedge()
+    {
+        if (ledgeDetected && canGrabLedge && ledgeGrabCooldownTimer <= 0f)
+        {
+            canGrabLedge = false;
+            Vector2 ledgePosition = GetComponentInChildren<LedgeDetection>().transform.position;
+            
+            if (isFacingRight)
+            {
+                climbBegunPosition = ledgePosition + offset1;
+            }
+            else
+            {
+                climbBegunPosition = ledgePosition + new Vector2(-offset1.x, offset1.y);
+            }
+
+            climbOverPosition = ledgePosition + offset2;
+            canClimb = true;
+        }
+
+        if (canClimb)
+        {
+            transform.position = climbBegunPosition;
+            animator.SetBool("IsHanging", true);
         }
     }
 
-     void OnMove(InputValue value)
+    void OnMove(InputValue value)
     {
         float v = value.Get<float>();
-        if (v != 0 && (v > 0 != isFacingRight)) // Check if direction changed
+        if (v != 0 && (v > 0 != isFacingRight))
         {
             Flip();
         }
@@ -85,16 +356,18 @@ public class PlayerMovement : MonoBehaviour
         if (!isDashing)
         {
             rb.linearVelocity = new Vector2(dir * speed, rb.linearVelocity.y);
-            // anim.SetBool("isRunning", dir != 0); 
             animator.SetFloat("Speed", Mathf.Abs(dir * speed));
-            Debug.Log("Speed: " + Mathf.Abs(dir * speed));
         }
     }
 
     void OnJump()
     {
-        if (numJumps > 0)
+        if (numJumps > 0 || canClimb)
         {
+            canClimb = false;
+            canGrabLedge = true;
+            ledgeGrabCooldownTimer = ledgeGrabCooldown; // Reset cooldown timer after jumping
+            animator.SetBool("IsHanging", false);
             Jump();
             numJumps -= 1;
         }
@@ -121,7 +394,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnDash()
     {
-        if (dashCooldownTimer <= 0f && !isDashing) 
+        if (dashCooldownTimer <= 0f && !isDashing)
         {
             StartDash();
         }
@@ -132,8 +405,8 @@ public class PlayerMovement : MonoBehaviour
         isDashing = true;
         dashTimer = dashDuration;
         dashCooldownTimer = dashCooldown;
-        float dashX = direction != 0 ? direction : Mathf.Sign(rb.linearVelocity.x);
-        dashDirection = new Vector2(dashX, 0).normalized;
+        int dir = isFacingRight ? 1 : -1;
+        dashDirection = new Vector2(dir, 0).normalized;
         rb.linearVelocity = dashDirection * dashSpeed;
         rb.gravityScale = 0;
     }
@@ -143,42 +416,16 @@ public class PlayerMovement : MonoBehaviour
         isDashing = false;
         rb.gravityScale = 1;
     }
-    // void OnCollisionExit2D(Collision2D collision){
-    //     if(collision.gameObject.CompareTag("Ground") ){
-    //         for (int i = 0; i < collision.contactCount; i++)
-    //         {
-    //             if (Vector2.Angle(collision.GetContact(i).normal, Vector2.up) > 85f)
-    //             {
-    //                 numJumps -=1; 
-    //             }
-    //         }
-    //      }
-    // }
-    void OnCollisionEnter2D(Collision2D collision){    
-        if(collision.gameObject.CompareTag("Dead")){
-            Debug.Log("dead");
-            transform.position = new Vector2(0, 0);
-         }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Dead"))
+        {
+            Debug.Log("Dead");
+            transform.position = Vector2.zero;
+        }
     }
 
-//     void OnCollisionEnter2D(Collision2D collision)
-// {
-//     if (collision.gameObject.CompareTag("Enemy"))
-//     {
-//         GetComponent<HealthManager>().TakeDamage(20);
-//     }
-//     if (collision.gameObject.CompareTag("HealthPickup"))
-//     {
-//         GetComponent<HealthManager>().Heal(30);
-//     }
-// }
-
-    // private void Flip(){
-    //     isFacingRight = !isFacingRight; 
-    //     Vector3 newLocalScale = transform.localScale;
-    //     newLocalScale.x *= -1f;
-    //     transform.localScale = newLocalScale; 
-    // }
     private void Flip()
     {
         isFacingRight = !isFacingRight;
