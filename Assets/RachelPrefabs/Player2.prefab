@@ -305,6 +305,10 @@ MonoBehaviour:
   dashCooldown: 0
   maxJumps: 2
   teleportPosition: {x: -20, y: 7}
+  animator: {fileID: 0}
+  ledgeDetected: 0
+  offset1: {x: 0, y: 0}
+  offset2: {x: 0, y: 0}
 --- !u!114 &4414461913286481094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 537652ef649fc4ad18817aa41c7cef7f, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -408,7 +412,7 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: 4519e133-d805-49ec-9cfd-813dc4e83e8c
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &4255244186733585464
