@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip death;
     public AudioClip hit;
     public AudioClip jump;
+    public AudioClip dash;
 
     private void Start() {
         musicSource.clip = bg;

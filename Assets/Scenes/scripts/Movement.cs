@@ -415,6 +415,7 @@ public class PlayerMovement : MonoBehaviour
 
     void StartDash()
     {
+        audioManager.PlaySFX(audioManager.dash);
         isDashing = true;
         dashTimer = dashDuration;
         dashCooldownTimer = dashCooldown;
