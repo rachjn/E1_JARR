@@ -272,6 +272,17 @@ public class PlayerMovement : MonoBehaviour
     float numJumps = 0;
     bool isFacingRight = true;
 
+
+    public float minPitch = 0.1f; // Lower pitch limit
+    public float maxPitch = 0.5f; // Upper pitch limit
+
+     AudioManager audioManager;
+
+    void Awake() {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -368,6 +379,8 @@ public class PlayerMovement : MonoBehaviour
             canGrabLedge = true;
             ledgeGrabCooldownTimer = ledgeGrabCooldown; // Reset cooldown timer after jumping
             animator.SetBool("IsHanging", false);
+            audioManager.SFXSource.pitch = Random.Range(minPitch, maxPitch);
+            audioManager.PlaySFX(audioManager.jump);
             Jump();
             numJumps -= 1;
         }

@@ -12,6 +12,12 @@ public class HealthManager : MonoBehaviour
     public event Action<int> OnLifeChanged; 
     public event Action OnDeath; 
 
+    AudioManager audioManager;
+
+    void Awake() {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -25,6 +31,7 @@ public class HealthManager : MonoBehaviour
         if (currentHealth <= 0) return;
 
         currentHealth -= damage;
+        audioManager.PlaySFXVol(audioManager.hit, 0.4f);
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
 
@@ -47,6 +54,7 @@ public class HealthManager : MonoBehaviour
     {
         lives--;
         OnLifeChanged?.Invoke(lives);
+        audioManager.PlaySFXVol(audioManager.death, 2.5f);
 
         if (lives > 0)
         {

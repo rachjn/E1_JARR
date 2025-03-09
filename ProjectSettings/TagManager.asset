@@ -9,6 +9,7 @@ TagManager:
   - Dead
   - Bullet
   - Edge
+  - Audio
   layers:
   - Default
   - TransparentFX
