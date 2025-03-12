@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MovementCheck.unity
     guid: 384349a55fa1b42448d983f2f1244165
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/JackyScene.unity
     guid: 02a4ed112f8be4e9b9bf260807a1f0cd
+  - enabled: 1
+    path: Assets/Scenes/JackyScene2.unity
+    guid: cf39da4c5c2d94523a0ee27a1d78ee6e
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 42c2be7e16d88491db69be8b0c74d8e2, type: 3}
   m_UseUCBPForAssetBundles: 0
