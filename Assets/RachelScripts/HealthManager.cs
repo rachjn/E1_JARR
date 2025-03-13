@@ -79,7 +79,7 @@ public class HealthManager : MonoBehaviour
     private void Respawn()
     {
         Debug.Log("Respawning...");
-        transform.position = new Vector2(0, 0); // Change this to your respawn point
+        transform.position = new Vector2(0, 4); // Change this to your respawn point
         currentHealth = maxHealth;
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
