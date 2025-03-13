@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ledge info")]
     [SerializeField] private Vector2 offset1;
     [SerializeField] private Vector2 offset2;
+    [SerializeField] private float knockbackForce = 10f;
 
     private Vector2 climbBegunPosition;
     private Vector2 climbOverPosition;
@@ -114,6 +115,26 @@ public class PlayerMovement : MonoBehaviour
             transform.position = climbBegunPosition;
             animator.SetBool("IsHanging", true);
         }
+    }
+
+    public void Knockback(Vector2 dir)
+    {
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero; // Reset velocity before applying knockback
+            rb.gravityScale = 0; // Disable gravity temporarily
+            isDashing = true; // Reuse dash logic for knockback
+            dashTimer = 0.2f; // Set a short duration for knockback
+            rb.linearVelocity = dir.normalized * knockbackForce; // Apply force in bullet's direction
+
+            Invoke(nameof(EndKnockback), 0.1f);
+        }
+    }
+
+    private void EndKnockback()
+    {
+        isDashing = false;
+        rb.gravityScale = 1; // Re-enable gravity
     }
 
     void OnMove(InputValue value)
