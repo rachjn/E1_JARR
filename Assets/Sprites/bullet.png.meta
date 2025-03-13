@@ -116,12 +116,12 @@ TextureImporter:
       name: bullet_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 10
-        width: 4
-        height: 4
+        x: 22
+        y: 7
+        width: 10
+        height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

@@ -164,7 +164,7 @@ public class PlayerMovement : MonoBehaviour
             canGrabLedge = true;
             ledgeGrabCooldownTimer = ledgeGrabCooldown; // Reset cooldown timer after jumping
             animator.SetBool("IsHanging", false);
-            audioManager.SFXSource.pitch = Random.Range(minPitch, maxPitch);
+            // audioManager.SFXSource.pitch = Random.Range(minPitch, maxPitch);
             audioManager.PlaySFX(audioManager.jump);
             Jump();
             numJumps -= 1;

@@ -4924,7 +4924,7 @@ MonoBehaviour:
   death: {fileID: 8300000, guid: 3143d3924433342ba954da1e1a019432, type: 3}
   hit: {fileID: 8300000, guid: e5f300cd5733d4adeabb449e58384d36, type: 3}
   jump: {fileID: 8300000, guid: c1b81137b73674d919ab4860e66e7ca2, type: 3}
-  dash: {fileID: 0}
+  dash: {fileID: 8300000, guid: 441423dfc1bdd440ca9e6f556a97212b, type: 3}
 --- !u!4 &2107704664
 Transform:
   m_ObjectHideFlags: 0
